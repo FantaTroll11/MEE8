@@ -14,4 +14,4 @@ COPY . .
 RUN pip install discord
 
 # Run the Main.py script when the container starts
-CMD ["python", "Main.py"]
+CMD ["python", "main.py"]
