@@ -1,17 +1,19 @@
-# Use the Python image as the base image
-FROM python:3
+# Use the official Python image as the base image
+FROM python:3.9
 
 # Set the working directory inside the container
 WORKDIR /app
 
-# Copy the token.txt file into the container's working directory
-COPY token.txt .
+# Install FFmpeg
+RUN Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
+RUN iex (new-object net.webclient).downloadstring('https://get.scoop.sh')
+RUN scoop install ffmpeg
 
-# Copy all the scripts into the container's working directory
-COPY . .
+# Copy the Python scripts and token.txt file into the container
+COPY music_cog.py Main.py help_cog.py token.txt /app/
 
-# Install the required Python packages
-RUN pip install discord
+# Install necessary Python dependencies
+RUN pip install discord.py youtube_dl
 
-# Run the Main.py script when the container starts
-CMD ["python", "main.py"]
+# Set the command to run your bot (replace YOUR_BOT_TOKEN with your actual bot token)
+CMD ["python", "Main.py"]
